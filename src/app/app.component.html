@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row m-5 d-flex justify-content-between">
+    <h1>agenda de contactos</h1>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop"
+      (click)="setUpdateButton()">
+      Agregar nuevo contacto
+    </button>
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Descripcion</th>
+          <th scope="col">Telefono</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of Contacts">
+          <th scope="row">{{contact.id}}</th>
+          <td>{{contact.name}}</td>
+          <td>{{contact.surname}}</td>
+          <td>{{contact.description}}</td>
+          <td>{{contact.country_code + contact.phone}}</td>
+          <td>
+            <button class="btn btn-primary" (click)="show(contact.id)">ver</button>
+            <button class="btn btn-danger ml-3" (click)="delete(contact.id)">eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="bg-secondary text-white">
+    <h4>TODO</h4>
+    <ul>
+      <li>agregar validaciones en los campos del lado del cliente</li>
+      <li>agregar un loading</li>
+      <li>agregar notificaciones</li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Agregar / Actualizar </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="contactForm">
+          <input type="hidden" formControlName="id">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" class="form-control" id="nombre" formControlName="name">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" class="form-control" id="apellido" formControlName="surname">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label for="codigo_pais">Codigo de pais</label>
+                <input type="text" class="form-control" id="codigo_pais" placeholder="+23"
+                  formControlName="country_code">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label for="numero">Numero</label>
+                <input type="number" class="form-control" id="numero" formControlName="phone">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripcion del contacto</label>
+            <input type="text" class="form-control" id="descripcion" formControlName="description">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button *ngIf="!updateButton" type="button" class="btn btn-primary" (click)="saveContact()">Agregar</button>
+        <button *ngIf="updateButton" type="button" class="btn btn-success" (click)="update()">Cambiar Datos</button>
+      </div>
+    </div>
+  </div>
+</div>
